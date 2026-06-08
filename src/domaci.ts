@@ -1,4 +1,5 @@
 type Currency = "EUR" | "RSD"
+type NameFormat = `${string} ${string}`
 
 type Shippment = {
   firstName: string;
@@ -12,7 +13,9 @@ type Shippment = {
   price: number, 
 }
 
-function addOrder(name: string, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): Shippment {
+export const orders: Shippment[] = []
+
+export function addOrder(name: NameFormat, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): object[] {
 
   const splitName = name.split(" ")
   const splitLocation = location.split(" ")
@@ -29,9 +32,8 @@ function addOrder(name: string, location: string, zip: number, quantity: number,
     price: price
   }
 
-  return output
+  orders.push(output)
+
+  return orders
 }
 
-console.log(
-  addOrder("Bojan Đurđević", "Novi Sad Srbija", 21000, 1, "laptop", "RSD", 100000)
-)
