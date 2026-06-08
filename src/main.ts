@@ -1,4 +1,4 @@
-import { addOrder, orders } from './domaci'
+import { addOrder, listOrders, orders } from './domaci'
 import './style.css'
 import { car } from './vezba'
 
@@ -9,6 +9,7 @@ function sayHello(message: string | number): void {
 
 sayHello("Bojan")
 sayHello(5)
+
 
 /**
  * Vežba - napraviti calculator funkciju
@@ -49,6 +50,5 @@ console.log("Car: ", car)
 const first = addOrder("Bojan Đurđević", "Novi Sad Srbija", 21000, 1, "laptop", "RSD", 100000)
 const second = addOrder("Toma Nikolić", "Beograd Srbija", 11000, 1, "TV", "RSD", 100000)
 
-console.log(
-  orders
-)
+
+listOrders(orders)

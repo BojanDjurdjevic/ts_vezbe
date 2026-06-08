@@ -1,7 +1,7 @@
 type Currency = "EUR" | "RSD"
 type NameFormat = `${string} ${string}`
 
-type Shippment = {
+interface Shippment {
   firstName: string;
   lastName: string,
   city: string,
@@ -15,7 +15,7 @@ type Shippment = {
 
 export const orders: Shippment[] = []
 
-export function addOrder(name: NameFormat, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): object[] {
+export function addOrder(name: NameFormat, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): void {
 
   const splitName = name.split(" ")
   const splitLocation = location.split(" ")
@@ -34,6 +34,23 @@ export function addOrder(name: NameFormat, location: string, zip: number, quanti
 
   orders.push(output)
 
-  return orders
+  //return orders
+}
+
+export function listOrders(orders: Shippment[]): void {
+  const appDiv = document.querySelector<HTMLDivElement>('#app')
+  
+  orders.forEach(item => {
+    const myDiv: HTMLDivElement = document.createElement('div')
+    myDiv.className = 'orderDiv'
+    myDiv.innerHTML = `
+      <h3>Product: ${item.product} </h3>
+      <p>Price: ${item.price} ${item.currency} </p>
+      <p>Poručilac: ${item.firstName} ${item.lastName} </p>
+      <p>Grad: ${item.city} </p>
+    `
+    if(appDiv) appDiv.appendChild(myDiv)
+    
+  })
 }
 
