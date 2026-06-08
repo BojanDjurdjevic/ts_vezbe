@@ -12,12 +12,16 @@ type Shippment = {
   price: number, 
 }
 
-function addOrder(name: string, lname: string, city: string, country: string, zip: number, quantity: number, product: string, currency: Currency, price: number): Shippment {
+function addOrder(name: string, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): Shippment {
+
+  const splitName = name.split(" ")
+  const splitLocation = location.split(" ")
+
   const output: Shippment = {
-    firstName: name,
-    lastName: lname,
-    city: city,
-    country: country,
+    firstName: splitName[0],
+    lastName: splitName[1],
+    city: splitLocation[0],
+    country: splitLocation[1],
     zip: zip,
     quantity: quantity,
     product: product,
@@ -29,5 +33,5 @@ function addOrder(name: string, lname: string, city: string, country: string, zi
 }
 
 console.log(
-  addOrder("Bojan", "Đurđević", "Novi Sad", "Srbija", 21000, 1, "laptop", "RSD", 100000)
+  addOrder("Bojan Đurđević", "Novi Sad Srbija", 21000, 1, "laptop", "RSD", 100000)
 )

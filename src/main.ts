@@ -1,4 +1,5 @@
 import './style.css'
+import { car } from './vezba'
 
 // Void - Ova fn ne vraća nikakav odgovor (nema return ili je prazan return)
 function sayHello(message: string | number): void {
@@ -41,3 +42,5 @@ const myLocation: LocationType[] = [
   [40.7128, -74.0060, "New York City"],
   [10.7128, -22.0060, "Belgrade"],
 ]
+
+console.log("Car: ", car)
