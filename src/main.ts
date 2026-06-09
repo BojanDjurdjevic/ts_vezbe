@@ -1,4 +1,4 @@
-import { addOrder, listOrders, orders } from './domaci'
+import { addOrder, advSearch, listOrders, orders, search } from './domaci'
 import './style.css'
 import { car } from './vezba'
 
@@ -47,8 +47,10 @@ const myLocation: LocationType[] = [
 
 console.log("Car: ", car)
 
-const first = addOrder("Bojan Đurđević", "Novi Sad Srbija", 21000, 1, "laptop", "RSD", 100000)
+const first = addOrder("Bojan Đurđević", "NoviSad Srbija", 21000, 1, "laptop", "RSD", 100000)
 const second = addOrder("Toma Nikolić", "Beograd Srbija", 11000, 1, "TV", "RSD", 100000)
 
 
 listOrders(orders)
+
+//advSearch("laptop", orders)

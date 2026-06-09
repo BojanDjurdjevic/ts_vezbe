@@ -15,10 +15,16 @@ interface Shippment {
 
 export const orders: Shippment[] = []
 
-export function addOrder(name: NameFormat, location: string, zip: number, quantity: number, product: string, currency: Currency, price: number): void {
+const appDiv = document.querySelector<HTMLDivElement>('#app')
+
+export function addOrder(name: NameFormat, location: string, zip: number, 
+  quantity: number, product: string, currency: Currency, price: number): Shippment[] | never {
 
   const splitName = name.split(" ")
   const splitLocation = location.split(" ")
+
+  //Validacija
+  if(splitName.length > 2 || splitLocation.length > 2) throw new Error("Name or location exceeds limits of 2");
 
   const output: Shippment = {
     firstName: splitName[0],
@@ -34,12 +40,10 @@ export function addOrder(name: NameFormat, location: string, zip: number, quanti
 
   orders.push(output)
 
-  //return orders
+  return orders
 }
 
 export function listOrders(orders: Shippment[]): void {
-  const appDiv = document.querySelector<HTMLDivElement>('#app')
-  
   orders.forEach(item => {
     const myDiv: HTMLDivElement = document.createElement('div')
     myDiv.className = 'orderDiv'
@@ -54,3 +58,36 @@ export function listOrders(orders: Shippment[]): void {
   })
 }
 
+export function search(name: string): void {
+  let myorders: Shippment[] = [];
+
+  orders.forEach(order => {
+    if(order.product == name) myorders.push(order)
+  })
+  /*
+  if(myorders.length < 1) {
+    
+  }
+  */
+    //return `Nije pronađen proizvod po imenu ${name}` 
+  if(appDiv) appDiv.innerHTML = ''
+  listOrders(myorders)
+}
+
+export function advSearch(searchTerm: string, orderList: Shippment[]): void {
+  const lowerTerm = searchTerm.toLowerCase()
+
+  const myorders = orderList.filter(order => {
+    if(order.product.toLowerCase() === lowerTerm) return order
+  })
+
+  if(appDiv) appDiv.innerHTML = ''
+
+  /**
+    if (appDiv) {
+      appDiv.replaceChildren()
+    }
+   */
+
+  listOrders(myorders)
+}
