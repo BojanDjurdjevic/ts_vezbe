@@ -1,5 +1,6 @@
 import { listMovieResults } from "./helpers/movieElementHelper"
 import { generateYears } from "./helpers/yearGeneratorHelper"
+import type { ApiSuccessInterface } from "./interfaces/ApiSuccessInterface"
 import { callApi } from "./services/apiService"
 /*
 function testApi() {
@@ -67,7 +68,9 @@ submitBtn.addEventListener('click', async () => {
     return
   }
 
-  listMovieResults(response.data.Search, appDiv)
+  const successData = response.data as ApiSuccessInterface
+
+  listMovieResults(successData.Search, appDiv)
 })
 
 formDiv.appendChild(movieInput)

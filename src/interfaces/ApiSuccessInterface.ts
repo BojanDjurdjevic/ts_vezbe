@@ -1,5 +1,7 @@
+import type { SingleMovieInterface } from "./singleMovieInterface";
+
 export interface ApiSuccessInterface {
     Response: string,
-    Search: [],
+    Search: SingleMovieInterface[],
     totalResult: string
 }
