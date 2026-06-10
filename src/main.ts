@@ -1,6 +1,6 @@
-import axios from "axios"
-import { config } from "./config/config"
-import { buildUrl, callApi } from "./services/apiService"
+import { listMovieResults } from "./helpers/movieElementHelper"
+import { generateYears } from "./helpers/yearGeneratorHelper"
+import { callApi } from "./services/apiService"
 /*
 function testApi() {
   const res = axios.get(config.apiUrl)
@@ -15,14 +15,66 @@ const url = buildUrl([
   {key: 'y', value: '2020'},
 ])
 
-console.log(url)*/
+console.log(url)
 
 const response = await callApi([
   {key: 't', value: 'terminator'},
   {key: 'y', value: '2000'},
 ])
 
-console.log(response)
+console.log(response)*/
+
+const appDiv = document.querySelector<HTMLDivElement>('#app')
+
+const formDiv = document.createElement('div')
+
+const movieInput = document.createElement('input')
+movieInput.placeholder = 'Movie title'
+movieInput.type = 'text'
+
+const yearSelect = document.createElement('select')
+generateYears(1960, yearSelect)
+
+const submitBtn = document.createElement('button')
+submitBtn.textContent = 'Search'
+submitBtn.type = 'button'
+
+const resultDiv = document.createElement('div')
+
+submitBtn.addEventListener('click', async () => {
+  resultDiv.remove()
+  appDiv?.appendChild(resultDiv)
+  if(!movieInput.value) {
+    alert("Please enter the movie title!")
+    return
+  }
+
+  let response = await callApi([
+    {key: "s", value: movieInput.value.trim()},
+    {key: "y", value: yearSelect.value}
+  ])
+
+  console.log(response)
+
+  if(response.data.Response === "False") {
+    response = await callApi([
+      {key: "s", value: movieInput.value.trim()}
+    ])
+  }
+
+  if(response.data.Response === "False") {
+    resultDiv.innerText = 'There are no movies according to your search.'
+    return
+  }
+
+  listMovieResults(response.data.Search, appDiv)
+})
+
+formDiv.appendChild(movieInput)
+formDiv.appendChild(yearSelect)
+formDiv.appendChild(submitBtn)
+
+appDiv?.appendChild(formDiv)
 
 
 
