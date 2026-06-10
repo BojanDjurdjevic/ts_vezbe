@@ -1,7 +1,9 @@
 import { listMovieResults } from "./helpers/movieElementHelper"
 import { generateYears } from "./helpers/yearGeneratorHelper"
+import type { ApiResponseErrorInterface } from "./interfaces/ApiResponseErrorInterface"
 import type { ApiSuccessInterface } from "./interfaces/ApiSuccessInterface"
 import { callApi } from "./services/apiService"
+import { rememberMovieSearch } from "./store/movieStore"
 /*
 function testApi() {
   const res = axios.get(config.apiUrl)
@@ -42,8 +44,16 @@ submitBtn.type = 'button'
 
 const resultDiv = document.createElement('div')
 
+formDiv.appendChild(movieInput)
+formDiv.appendChild(yearSelect)
+formDiv.appendChild(submitBtn)
+
+appDiv?.appendChild(formDiv)
+
+
 submitBtn.addEventListener('click', async () => {
   resultDiv.remove()
+  resultDiv.innerHTML = ''
   appDiv?.appendChild(resultDiv)
   if(!movieInput.value) {
     alert("Please enter the movie title!")
@@ -61,23 +71,21 @@ submitBtn.addEventListener('click', async () => {
     response = await callApi([
       {key: "s", value: movieInput.value.trim()}
     ])
-  }
-
-  if(response.data.Response === "False") {
-    resultDiv.innerText = 'There are no movies according to your search.'
-    return
-  }
+  } 
 
   const successData = response.data as ApiSuccessInterface
+  const errorData = response.data as ApiResponseErrorInterface
+  
+  if(errorData.Error) {
+    resultDiv.innerText = 'There are no movies according to your search.'
+    return
+  } else {
+    rememberMovieSearch({name: movieInput.value.trim(), year: yearSelect.value})
+  }
 
-  listMovieResults(successData.Search, appDiv)
+  listMovieResults(successData.Search, resultDiv)
 })
 
-formDiv.appendChild(movieInput)
-formDiv.appendChild(yearSelect)
-formDiv.appendChild(submitBtn)
-
-appDiv?.appendChild(formDiv)
 
 
 
