@@ -1,9 +1,11 @@
+import './style.css'
 import { listMovieResults } from "./helpers/movieElementHelper"
 import { generateYears } from "./helpers/yearGeneratorHelper"
 import type { ApiResponseErrorInterface } from "./interfaces/ApiResponseErrorInterface"
 import type { ApiSuccessInterface } from "./interfaces/ApiSuccessInterface"
+import type { SingleMovieSearch } from "./interfaces/movieStore/SingleMovieSearch"
 import { callApi } from "./services/apiService"
-import { rememberMovieSearch } from "./store/movieStore"
+import { getAllMovieSearches, rememberMovieSearch } from "./store/movieStore"
 /*
 function testApi() {
   const res = axios.get(config.apiUrl)
@@ -28,6 +30,8 @@ const response = await callApi([
 console.log(response)*/
 
 const appDiv = document.querySelector<HTMLDivElement>('#app')
+const existingMoviesDiv = document.createElement('div')
+existingMoviesDiv.id = 'existingsDiv'
 
 const formDiv = document.createElement('div')
 
@@ -49,6 +53,21 @@ formDiv.appendChild(yearSelect)
 formDiv.appendChild(submitBtn)
 
 appDiv?.appendChild(formDiv)
+
+
+const existingMovies: SingleMovieSearch[] = getAllMovieSearches()
+
+if(existingMovies.length) {
+  existingMovies.forEach((movie: SingleMovieSearch) => {
+    const oneMovieDiv = document.createElement('div')
+    oneMovieDiv.id = 'oneExist'
+    oneMovieDiv.textContent = `${movie.name}, ${movie.year}`
+    existingMoviesDiv.append(oneMovieDiv)
+  })
+
+  appDiv?.insertBefore(existingMoviesDiv, formDiv)
+}
+
 
 
 submitBtn.addEventListener('click', async () => {

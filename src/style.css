@@ -301,3 +301,21 @@ code {
   padding: 0.5rem;
   margin: 0.5rem;
 }
+
+#existingsDiv {
+  display: flex;
+  gap: 1rem;
+  margin: 0.7rem;
+}
+#oneExist {
+  padding: 1rem;
+  background-color: #151313;
+  color: white;
+  border-radius: 1rem;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+#oneExist:hover {
+  background-color: #464545;
+}
