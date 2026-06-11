@@ -1,12 +1,17 @@
-import './style.css'
-import { listMovieResults } from "./helpers/movieElementHelper"
+import './style.css' 
 import { generateYears } from "./helpers/yearGeneratorHelper"
+import { displaySearches } from "./store/movieStore"
+import { mainSearch } from './helpers/searchHelper'
+/*
+import { listMovieResults } from "./helpers/movieElementHelper"
+
 import type { ApiResponseErrorInterface } from "./interfaces/ApiResponseErrorInterface"
 import type { ApiSuccessInterface } from "./interfaces/ApiSuccessInterface"
 import type { SingleMovieSearch } from "./interfaces/movieStore/SingleMovieSearch"
 import { callApi } from "./services/apiService"
-import { getAllMovieSearches, rememberMovieSearch } from "./store/movieStore"
+ */
 /*
+
 function testApi() {
   const res = axios.get(config.apiUrl)
   console.log(res)
@@ -29,48 +34,37 @@ const response = await callApi([
 
 console.log(response)*/
 
-const appDiv = document.querySelector<HTMLDivElement>('#app')
-const existingMoviesDiv = document.createElement('div')
-existingMoviesDiv.id = 'existingsDiv'
+const appDiv = document.querySelector<HTMLDivElement>('#app') as HTMLDivElement
 
 const formDiv = document.createElement('div')
+formDiv.id = 'formDiv'
 
 const movieInput = document.createElement('input')
 movieInput.placeholder = 'Movie title'
 movieInput.type = 'text'
+movieInput.id = 'movieInput'
 
 const yearSelect = document.createElement('select')
+yearSelect.id = 'yearSelect'
 generateYears(1960, yearSelect)
 
 const submitBtn = document.createElement('button')
 submitBtn.textContent = 'Search'
 submitBtn.type = 'button'
+submitBtn.id = 'submitBtn'
 
 const resultDiv = document.createElement('div')
+resultDiv.id = 'resultDiv'
 
 formDiv.appendChild(movieInput)
 formDiv.appendChild(yearSelect)
 formDiv.appendChild(submitBtn)
 
-appDiv?.appendChild(formDiv)
+appDiv?.append(formDiv, resultDiv)
 
+displaySearches(appDiv, formDiv)
 
-const existingMovies: SingleMovieSearch[] = getAllMovieSearches()
-
-if(existingMovies.length) {
-  existingMovies.forEach((movie: SingleMovieSearch) => {
-    const oneMovieDiv = document.createElement('div')
-    oneMovieDiv.id = 'oneExist'
-    oneMovieDiv.textContent = `${movie.name}, ${movie.year}`
-    existingMoviesDiv.append(oneMovieDiv)
-  })
-
-  appDiv?.insertBefore(existingMoviesDiv, formDiv)
-}
-
-
-
-submitBtn.addEventListener('click', async () => {
+submitBtn.addEventListener('click', async () => { /*
   resultDiv.remove()
   resultDiv.innerHTML = ''
   appDiv?.appendChild(resultDiv)
@@ -99,10 +93,14 @@ submitBtn.addEventListener('click', async () => {
     resultDiv.innerText = 'There are no movies according to your search.'
     return
   } else {
-    rememberMovieSearch({name: movieInput.value.trim(), year: yearSelect.value})
+    const oldDiv = document.querySelector("#existingsDiv") as HTMLElement
+    oldDiv?.remove()
+    rememberMovieSearch({name: movieInput.value.trim(), year: yearSelect.value}, appDiv, formDiv)
   }
 
-  listMovieResults(successData.Search, resultDiv)
+  listMovieResults(successData.Search, resultDiv) */
+
+  mainSearch()
 })
 
 
