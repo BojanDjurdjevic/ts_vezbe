@@ -4,14 +4,6 @@ import type { SingleMovieSearch } from "../interfaces/movieStore/SingleMovieSear
 
 export function rememberMovieSearch(movie: SingleMovieSearch, toDiv: HTMLElement, beforeDiv: HTMLElement): void {
     const existingMovies = getAllMovieSearches()
-    /*
-    let sum = 0
-    existingMovies.forEach(item => {
-        console.log(item, ": ", movie)
-        if(item.name == movie.name) sum++;
-    }) 
-
-    if(sum > 0) return; */
 
     const alreadyExists: boolean = existingMovies.some((m: SingleMovieSearch)=> 
         m.name.toLowerCase() === movie.name.toLowerCase() && m.year === movie.year
@@ -40,6 +32,8 @@ export function clearAllMovieSearch(): void {
 
 export function displaySearches(toDiv: HTMLElement, beforeDiv: HTMLElement) {
     const existingMovies: SingleMovieSearch[] = getAllMovieSearches()
+    const existingOldDiv = document.querySelector("#existingsDiv") as HTMLDivElement
+    if(existingOldDiv) existingOldDiv.remove()
 
     if(existingMovies.length) {
         const existingMoviesDiv = document.createElement('div')
@@ -47,7 +41,7 @@ export function displaySearches(toDiv: HTMLElement, beforeDiv: HTMLElement) {
         
         existingMovies.forEach((movie: SingleMovieSearch) => {
             const oneMovieDiv = document.createElement('div')
-            oneMovieDiv.id = 'oneExist'
+            oneMovieDiv.className = 'oneExist'
             oneMovieDiv.textContent = `${movie.name}, ${movie.year}`
 
             oneMovieDiv.addEventListener("click", () => {
